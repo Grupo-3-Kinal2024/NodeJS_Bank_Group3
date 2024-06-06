@@ -2,6 +2,8 @@ import bcryptjs from "bcryptjs";
 import { generateJWT } from "../helpers/generate-JWT.js";
 import User from "../modules/user/user.model.js";
 
+
+
 export const login = async (req, res) => {
   const { email, pass } = req.body;
   
@@ -46,35 +48,42 @@ export const login = async (req, res) => {
   }
 };
 
+
+
 export const register = async (req, res) => {
   const { DPI, name, lastName, userName, email, pass, phone, address, jobName } = req.body;
 
   try {
-    // Crear una nueva instancia de User
+    const hashedPass = bcryptjs.hashSync(pass, 10);
+
+    let role = "CLIENT";
+    //The line under verify if there is a word admin then of the arroba
+    //if there is, the rol will be ADMIN else will be CLIENT
+    if (email.includes("@") && email.split("@")[1].toLowerCase().includes("admin")) {
+      role = "ADMIN";
+    }
+
     const newUser = new User({
       DPI,
       name,
       lastName,
       userName,
       email,
-      pass: bcryptjs.hashSync(pass, 10),  // Encriptar la contraseña
+      pass: hashedPass,
       phone,
       address,
       jobName,
-      accounts: []  // Inicializar el campo accounts como un array vacío
+      role, 
+      accounts: [] 
     });
-
-    // Guardar el nuevo usuario en la base de datos
+  
     await newUser.save();
 
-    // Generar un token
-    const token = await generateJWT(newUser.id, newUser.email);
-
-    // Enviar la respuesta exitosa con los detalles del usuario
     res.status(201).json({
       msg: "User registered successfully",
       userDetails: {
         id: newUser._id,
+        DPI: newUser.DPI,
         name: newUser.name,
         email: newUser.email,
         userName: newUser.userName,
@@ -83,9 +92,8 @@ export const register = async (req, res) => {
         jobName: newUser.jobName,
         role: newUser.role,
         status: newUser.status,
-        accounts: newUser.accounts,  // Incluir el campo accounts en la respuesta
-        token: token,
-      },
+        accounts: newUser.accounts, 
+            },
     });
   } catch (e) {
     console.log(e);
@@ -96,8 +104,63 @@ export const register = async (req, res) => {
 };
 
 
-/*
-export const register = async (req, res) => {
-  const { DPI, name, lastName, userName, email, pass, phone, address, jobName }
-}
-*/
+export const authPut = async (req, res) => {
+  const { id } = req.params;
+  const { name, lastName, userName, email, pass, phone, address, jobName } = req.body;
+
+  try {
+    // Find the user by ID
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+
+    // Update user properties
+    user.name = name || user.name;
+    user.lastName = lastName || user.lastName;
+    user.userName = userName || user.userName;
+    user.email = email || user.email;
+    user.phone = phone || user.phone;
+    user.address = address || user.address;
+    user.jobName = jobName || user.jobName;
+
+    if (pass) {
+      // Check if password changed
+      if (pass !== user.pass) {
+        const hashedPass = bcryptjs.hashSync(pass, 10);
+        user.pass = hashedPass;
+      }
+    }
+
+    // Save the updated user
+    await user.save();
+
+    const userDetails = {
+      id: user._id,
+      DPI: user.DPI,
+      name: user.name,
+      lastName: user.lastName,
+      userName: user.userName,
+      email: user.email,
+      pass: pass || undefined, // Include unhashed password if provided
+      phone: user.phone,
+      address: user.address,
+      jobName: user.jobName,
+      role: user.role,
+      status: user.status,
+      accounts: user.accounts,
+    };
+
+    // Send the response
+    res.status(200).json({
+      msg: "User profile updated successfully",
+      userDetails: userDetails,
+    });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({
+      msg: "Please contact the administrator/support.",
+    });
+  }
+};
