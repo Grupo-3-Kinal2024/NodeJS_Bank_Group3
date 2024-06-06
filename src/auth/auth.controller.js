@@ -3,7 +3,7 @@ import { generateJWT } from "../helpers/generate-JWT.js";
 import User from "../modules/user/user.model.js";
 
 
-
+/**************  Login *****************/
 export const login = async (req, res) => {
   const { email, pass } = req.body;
   
@@ -42,14 +42,13 @@ export const login = async (req, res) => {
     }
   } catch (e) {
     console.log(e);
-    res.status(500).json({
-      msg: "Please contact the administrator/support.",
-    });
+    res.status(500).send( "Please contact the administrator/support.");
   }
 };
 
 
 
+/**************  Register *****************/
 export const register = async (req, res) => {
   const { DPI, name, lastName, userName, email, pass, phone, address, jobName } = req.body;
 
@@ -97,13 +96,12 @@ export const register = async (req, res) => {
     });
   } catch (e) {
     console.log(e);
-    res.status(500).json({
-      msg: "Please contact the administrator/support.",
-    });
+    res.status(500).send("Please contact the administrator/support.",);
   }
 };
 
 
+/**************  PUT *****************/
 export const authPut = async (req, res) => {
   const { id } = req.params;
   const { name, lastName, userName, email, pass, phone, address, jobName } = req.body;
@@ -113,7 +111,7 @@ export const authPut = async (req, res) => {
     const user = await User.findById(id);
 
     if (!user) {
-      return res.status(404).json({ msg: "User not found" });
+      return res.status(404).send("User not found");
     }
 
     // Update user properties
@@ -159,8 +157,20 @@ export const authPut = async (req, res) => {
     });
   } catch (e) {
     console.log(e);
-    res.status(500).json({
-      msg: "Please contact the administrator/support.",
-    });
+    res.status(500).send("Please contact the administrator/support.",);
+  }
+};
+
+
+/**************  Get All True Users *****************/
+
+export const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find({ status: true });
+
+    res.status(200).send({ users });
+  } catch (e) {
+    console.log(e);
+    res.status(500).send("Please contact the administrator/support.");
   }
 };

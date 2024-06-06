@@ -1,9 +1,9 @@
 import { Router } from "express";
 import { check } from "express-validator";
 import { validateFields } from "../middlewares/validate-fields.js";
-import { login, register, authPut } from "./auth.controller.js";
+import { login, register, authPut, getAllUsers } from "./auth.controller.js";
 import { validateExistentUserName ,validateExistentDPI ,validateExistentPhone ,validateEmail ,  validateExistentEmail } from "../helpers/data-methods.js";
-import { validateJWT } from "../middlewares/validate-jwt.js";
+
 
 const router = Router();
 
@@ -48,5 +48,6 @@ router.put(
         validateFields
     ], authPut
 )
+
 
 export default router;
