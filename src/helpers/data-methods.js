@@ -41,3 +41,18 @@ export const validatePassword = async (password) => {
         throw new Error('The password must be at least 6 characters.');
     }
 };
+
+export const validateExistentDPI = async(DPI) =>{
+    const dpi = await User.findOne({DPI});
+    if (dpi) { throw new Error(`DPI already is registered`) }
+}
+
+export const validateExistentUserName = async(userName) =>{
+    const uName = await User.findOne({userName});
+    if (uName) { throw new Error(`The userName already is registered ${uName}`) }
+}
+
+export const validateExistentPhone = async (phone) => {
+    const pho = await User.findOne({ phone });
+    if (pho) {throw new Error('Phone already exists')}
+}

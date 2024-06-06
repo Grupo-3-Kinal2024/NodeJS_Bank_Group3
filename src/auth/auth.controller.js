@@ -45,3 +45,59 @@ export const login = async (req, res) => {
     });
   }
 };
+
+export const register = async (req, res) => {
+  const { DPI, name, lastName, userName, email, pass, phone, address, jobName } = req.body;
+
+  try {
+    // Crear una nueva instancia de User
+    const newUser = new User({
+      DPI,
+      name,
+      lastName,
+      userName,
+      email,
+      pass: bcryptjs.hashSync(pass, 10),  // Encriptar la contraseña
+      phone,
+      address,
+      jobName,
+      accounts: []  // Inicializar el campo accounts como un array vacío
+    });
+
+    // Guardar el nuevo usuario en la base de datos
+    await newUser.save();
+
+    // Generar un token
+    const token = await generateJWT(newUser.id, newUser.email);
+
+    // Enviar la respuesta exitosa con los detalles del usuario
+    res.status(201).json({
+      msg: "User registered successfully",
+      userDetails: {
+        id: newUser._id,
+        name: newUser.name,
+        email: newUser.email,
+        userName: newUser.userName,
+        phone: newUser.phone,
+        address: newUser.address,
+        jobName: newUser.jobName,
+        role: newUser.role,
+        status: newUser.status,
+        accounts: newUser.accounts,  // Incluir el campo accounts en la respuesta
+        token: token,
+      },
+    });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({
+      msg: "Please contact the administrator/support.",
+    });
+  }
+};
+
+
+/*
+export const register = async (req, res) => {
+  const { DPI, name, lastName, userName, email, pass, phone, address, jobName }
+}
+*/
