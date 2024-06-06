@@ -5,7 +5,7 @@ import express from "express";
 import helmet from "helmet";
 import morgan from "morgan";
 import { dbConnection } from "./mongo.js";
-import authRoutes from "../";
+import authRoutes from "../src/auth/auth.routes.js";
 import accountRoutes from "../src/modules/account/account.routes.js";
 // import routes from 'routes.js';
 
@@ -53,7 +53,6 @@ class Server {
     console.log("netstat -ano | findstr :3000");
     console.log("taskkill /PID <PID> /F");
     console.log("");
-    this.listen();
   }
 }
 

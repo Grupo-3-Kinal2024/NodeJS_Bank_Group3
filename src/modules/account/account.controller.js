@@ -1,6 +1,6 @@
 import { validateUser } from '../../helpers/data-methods.js';
 import { isToken } from '../../helpers/tk-methods.js';
-import Account from '../../models/account.model.js';
+import Account from './account.model.js';
 
 const handleResponse = (res, promise) => {
     promise
