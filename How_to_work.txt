@@ -1,0 +1,99 @@
+##### CONFIGS DIRECTORY EXPLANATION
+
+   The "configs" folder houses essential files for the configuration and proper functioning of the application. 
+   Here's a breakdown of what this folder contains:
+
+   1. server.js: This file serves as the core of the application. It's responsible for starting the server 
+               and configuring all necessary routes and middlewares for the application to run correctly. 
+               Additionally, it provides the logic for connecting to the database and defines routes for 
+               various API endpoints.
+
+   2. mongo.js: This file contains the necessary configuration to establish a connection with the MongoDB 
+               database. It doesn't require modification, as it's preconfigured to establish the connection 
+               correctly.
+
+   The "configs" folder is crucial for the proper functioning of the application, as it contains the core logic 
+   and configuration needed to start and run the server, as well as to establish a connection with the database.
+
+   Furthermore, it's important to note that these files should be handled with caution, as they contain sensitive 
+   configurations critical to the operation of the application.
+
+   ---
+
+   The "data" folder is to add data that will be used for testing. 
+   Collections from the database should be uploaded to the "data/collections" directory, 
+   and endpoints should be uploaded to the "data/endpoints" directory. 
+   
+   This setup facilitates testing of these components to ensure their functionality before deployment to production 
+   environments, while also maintaining the security of sensitive information.
+
+   ---
+
+   Note: Ensure to maintain the security of these files and avoid exposing sensitive information, 
+   such as database credentials, in public repositories or production environments.
+
+   Description of the "data" directory:
+
+   The "data" directory will be solely used for testing environments, ensuring that no sensitive information is compromised here.
+
+
+
+##### SOURCE CODE DIRECTORY EXPLANATION
+
+   Within the src directory, we organize our codebase into distinct modules and supporting components 
+   to enhance clarity, maintainability, and scalability. Here's a breakdown of each directory and its purpose:
+
+   1. auth:
+      This directory hosts functionalities related to the authentication process. 
+      Primarily, it handles user authentication and authorization tasks. 
+      It's important to note that the auth module stands independently outside the modules directory 
+      due to its critical role in securing the application.
+
+   2. helpers:
+      The helpers directory contains utility functions or a collection of functions that offer commonly 
+      used functionalities across the application. These functions aim to streamline development by 
+      providing reusable code for tasks such as data manipulation, formatting, or other routine operations.
+
+   3. middlewares:
+      Middleware components reside within the middlewares directory. Middleware, in our context, acts as 
+      a bridge between different parts of the application, facilitating communication and interactions. 
+      Common middleware tasks include request processing, authentication, logging, error handling, and input 
+      validation. Frameworks like Express.js (Node.js) or Django (Python) are often utilized here to streamline 
+      these processes.
+
+   4. modules:
+      The modules directory serves as the primary container for encapsulating distinct features or functionalities 
+      of the application. Each module resides within its own subdirectory, maintaining a clear separation of concerns. 
+      
+      For instance:
+
+         - modules/user: Contains functionality related to user management.
+         - modules/account: Focuses on account-related features.
+
+      Within each module directory, you'll find the following files:
+
+         - module_name.controller.js: Logic responsible for handling incoming requests, processing data, and generating appropriate responses.
+         - module_name.model.js: Defines the data structure and schema associated with the module, including database interactions.
+         - module_name.routes.js: Specifies the API routes and corresponding HTTP methods for accessing the module's functionalities.
+
+   This structured approach to organizing our source code promotes maintainability, reusability, and collaboration 
+   among developers, ensuring a cohesive and scalable application architecture.
+
+
+##### ENDPOINTS
+
+   Best Practices for API Endpoint Design
+
+   It's important to maintain clean and concise endpoint routes to enhance readability and maintainability of the API. 
+   Consider structuring your endpoints with a base route followed by the entity they operate on, like so:
+
+      - baseRoute/entity
+
+   Avoid adding unnecessary actions or verbs to the endpoint paths, such as:
+
+      - baseRoute/entity/updateEntity
+      - baseRoute/entity/createEntity
+
+   These distinctions can often be handled by employing different HTTP methods (GET, POST, PUT, DELETE) to the same endpoint. 
+   Overloading the endpoint paths with additional descriptors can lead to unnecessary complexity and clutter. 
+   Keep it simple and focused on the core functionality of the endpoint.
