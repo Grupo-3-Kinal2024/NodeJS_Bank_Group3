@@ -36,9 +36,11 @@ This project aims to develop a web API using Node.js, React, and MongoDB for man
 1. Clone the repository
 
 2. Install dependencies:
-   ```npm i```
+```
+nmp i
+```
 
-3. Set up environment variables:
+4. Set up environment variables:
 Create a `.env` file in the root directory and define the following variables:
 `NODE_ENV`, `PORT`, `JWT_SECRET`, `MONGODB_URI`
 
@@ -46,7 +48,9 @@ Create a `.env` file in the root directory and define the following variables:
 Import the sample data provided in `configs/data` into your MongoDB database.
 
 1. Run the server:
-    ```npm run dev```
+```
+  npm run dev
+```
 ## Authentication
 
 The API uses JSON Web Tokens (JWT) for user authentication. Upon successful login, a JWT is generated and included in subsequent requests to authenticate the user.
