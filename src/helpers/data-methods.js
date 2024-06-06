@@ -56,3 +56,4 @@ export const validateExistentPhone = async (phone) => {
     const pho = await User.findOne({ phone });
     if (pho) {throw new Error('Phone already exists')}
 }
+

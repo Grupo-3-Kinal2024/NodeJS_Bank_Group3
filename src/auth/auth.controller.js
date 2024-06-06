@@ -162,13 +162,33 @@ export const authPut = async (req, res) => {
 };
 
 
-/**************  Get All True Users *****************/
+/**************  Get a User *****************/
 
 export const getAllUsers = async (req, res) => {
-  try {
-    const users = await User.find({ status: true });
+ try{
+   const user = await User.find({status: true});
+   res.status(200).send(user)
+ }catch(e){
+  console.log(e);
+  res.status(500).send("Please contact the administrator/support.",);
 
-    res.status(200).send({ users });
+ }
+};
+
+
+/**************  Delete A User *****************/
+
+export const authDelete = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+    user.status = false;
+    await user.save();
+
+    res.status(200).send(`User deleted successfully ${user}`);
   } catch (e) {
     console.log(e);
     res.status(500).send("Please contact the administrator/support.");
