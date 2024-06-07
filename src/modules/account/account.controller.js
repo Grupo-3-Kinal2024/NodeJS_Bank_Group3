@@ -51,3 +51,13 @@ export const deleteAccount = async (req, res) => {
     await validateUserRequest(req, res);
     handleResponse(res, Account.findByIdAndUpdate({ _id: id, status: true }, { $set: { status: false } }, { new: true }));
 }
+
+// MOVIMIENTOS EN LA CUENTA PARA TRANSACCIONES
+
+export const IncomeAccount = async (req, res) => {
+    
+}
+
+export const EgressAccount = async (req, res) => {
+
+}
