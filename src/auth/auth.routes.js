@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { check } from "express-validator";
 import { validateFields } from "../middlewares/validate-fields.js";
-import { login, register, authPut, getAllUsers, authDelete } from "./auth.controller.js";
+import { login, register } from "./auth.controller.js";
 import { validateExistentUserName ,validateExistentDPI ,validateExistentPhone ,validateEmail ,  validateExistentEmail, validateUser } from "../helpers/data-methods.js";
 
 
@@ -38,26 +38,6 @@ router.post(
     register
   );
 
-router.put(
-    '/:id',
-    [
-        check("userName").custom(validateExistentUserName),
-        check("email").custom(validateEmail),
-        check("email").custom(validateExistentEmail),
-        check("phone").custom(validateExistentPhone),
-        validateFields
-    ], authPut
-)
-
-router.get('/', getAllUsers);
-
-router.delete('/:id',
-    [
-        check("id","Id is required").isMongoId(),
-        check("id").custom(validateUser),
-        validateFields
-    ], authDelete
-)
 
 
 export default router;

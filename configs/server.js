@@ -4,9 +4,10 @@ import cors from "cors";
 import express from "express";
 import helmet from "helmet";
 import morgan from "morgan";
-import { dbConnection } from "./mongo.js";
 import authRoutes from "../src/auth/auth.routes.js";
 import accountRoutes from "../src/modules/account/account.routes.js";
+import userRoutes from "../src/modules/user/user.routes.js";
+import { dbConnection } from "./mongo.js";
 // import routes from 'routes.js';
 
 class Server {
@@ -16,6 +17,7 @@ class Server {
     this.port = process.env.PORT;
     this.authPath = "/bank/v1/auth";
     this.accountPath = "/bank/v1/account";
+    this.userPath = "/bank/v1/user";
 
     this.middlewares();
     this.conectDB();
@@ -29,6 +31,7 @@ class Server {
   routes() {
     this.app.use(this.authPath, authRoutes);
     this.app.use(this.accountPath, accountRoutes);
+    this.app.use(this.userPath, userRoutes);
   }
 
   middlewares() {

@@ -1,0 +1,152 @@
+{
+	"info": {
+		"_postman_id": "8169f81d-044f-4ce8-8bb5-e92031917af2",
+		"name": "User",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "32787359"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"item": [
+				{
+					"name": "Register1",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"DPI\": \"98522322\",\r\n  \"name\": \"Daniel\",\r\n  \"lastName\": \"Istacuy\",\r\n  \"userName\": \"Sebassss\",\r\n  \"email\": \"Sebassss@gmail.com\",\r\n  \"pass\": \"3rfafa4124sas\",\r\n  \"phone\": \"41245122\",\r\n  \"address\": \"Capital city\",\r\n  \"jobName\": \"Web designer\",\r\n  \"accounts\": []\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/bank/v1/auth/register"
+					},
+					"response": []
+				},
+				{
+					"name": "Register2",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Register3",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Register4",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "Login1",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \r\n    \"email\":\"Sebassss@gmail.com\",\r\n    \"pass\":\"3rfafa4124sas\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/bank/v1/auth/login"
+					},
+					"response": []
+				},
+				{
+					"name": "Login2",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Login3",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "userPut",
+			"item": [
+				{
+					"name": "userPut1",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Joseph\",\r\n  \"lastName\": \"Camirelli\",\r\n  \"userName\": \"Josephine\",\r\n  \"email\": \"josephine@example.com\",\r\n  \"pass\": \"mySecrePass\",\r\n  \"phone\": \"123142612\",\r\n  \"address\": \"789 Oak Avenue\",\r\n  \"jobName\": \"Marketing Specialist\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/bank/v1/user/666339c96e5be00a54e187ce"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Get",
+			"item": [
+				{
+					"name": "userGet",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:3000/bank/v1/user"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Delete",
+			"item": [
+				{
+					"name": "authDelete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:3000/bank/v1/user/666339c96e5be00a54e187ce"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
