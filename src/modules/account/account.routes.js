@@ -7,9 +7,8 @@ import { createAccount, getAccounts, getAccount, updateAccount, deleteAccount } 
 const router = Router();
 
 router.post(
-    "/", [
+    "/new", [
         validateJWT,
-        check('numberAccount', 'The numberAccount is required').not().isEmpty(),
         check('salary', 'The salary is required').not().isEmpty(),
         check('credit', 'The credit is required').not().isEmpty(),
         validateFields
