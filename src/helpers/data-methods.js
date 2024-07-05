@@ -34,7 +34,7 @@ export const validateExistentEmail = async (email) => {
 
 export const validateExistentNumberAccount = async (numberAccount) => {
     const existence = await Account.findOne({ numberAccount: numberAccount });
-    return existence ? true : false;
+    return existence == null ? false : true;
 }
 
 export const validatePassword = async (password) => {

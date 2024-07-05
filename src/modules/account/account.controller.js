@@ -29,7 +29,7 @@ export const createAccount = async (req, res) => {
     let numberAccount = 0;
     do {
         numberAccount = randomatic("0", 10);
-    } while (validateExistentNumberAccount(numberAccount));
+    } while (await validateExistentNumberAccount(numberAccount));
     handleResponse(res, Account.create({ numberAccount, salary, credit }));
 }
 
