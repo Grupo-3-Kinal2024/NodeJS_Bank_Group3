@@ -23,6 +23,12 @@ const validateUserRequest = async (req, res) => {
     }
 }
 
+export const getAllFavorites = async(req, res) =>{
+    await validateUserRequest(req, res);
+    handleResponse(res, Favorite.find({status: true}))
+}
+
+
 export const addFavorite = async (req, res) =>{
     const { numberAccount, DPIFavorite, DPIPersonal, alias } = req.body
 
