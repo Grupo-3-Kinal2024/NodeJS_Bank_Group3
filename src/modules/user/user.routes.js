@@ -8,7 +8,7 @@ import {
   validateUser,
 } from "../../helpers/data-methods.js";
 import { validateFields } from "../../middlewares/validate-fields.js";
-import { getAllUsers, userDelete, userPut } from "./user.controller.js";
+import { getAllUsers, userPut, getEnterpriseUsers } from "./user.controller.js";
 
 const router = Router();
 
@@ -25,15 +25,6 @@ router.put(
 );
 
 router.get("/", getAllUsers);
-
-router.delete(
-  "/:id",
-  [
-    check("id", "Id is required").isMongoId(),
-    check("id").custom(validateUser),
-    validateFields,
-  ],
-  userDelete
-);
+router.get("/enterprise", getEnterpriseUsers);
 
 export default router;

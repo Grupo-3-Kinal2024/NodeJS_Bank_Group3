@@ -9,7 +9,7 @@ export const userPut = async (req, res) => {
   const { id } = req.params;
   const { name, lastName, userName, email, pass, phone, address, jobName } = req.body;
   const user = await isToken(req, res);
-  const newData = {name, lastName, userName, email, phone, address, jobName};
+  const newData = { name, lastName, userName, email, phone, address, jobName };
   if (pass) {
     const salt = bcryptjs.genSaltSync();
     newData.pass = bcryptjs.hashSync(pass, salt);
@@ -22,9 +22,7 @@ export const getAllUsers = async (req, res) => {
   handleResponse(res, User.find({ status: true }));
 };
 
-export const userDelete = async (req, res) => {
-  logger.info('Deleting user');
-  const { id } = req.params;
-  const user = await isToken(req, res);
-  handleResponse(res, User.findByIdAndUpdate(user._id, { status: false }, { new: true }));
+export const getEnterpriseUsers = async (req, res) => {
+  logger.info('Getting enterprise users');
+  handleResponse(res, User.find({ status: true, role: 'ENTERPRISE' }));
 };

@@ -1,4 +1,4 @@
-import {Schema, model} from 'mongoose';
+import { Schema, model } from 'mongoose';
 
 const UserSchema = new Schema({
     DPI: {
@@ -34,11 +34,11 @@ const UserSchema = new Schema({
         required: true,
     },
     accounts: [{
-   
+
     }],
     role: {
         type: String,
-        enum: ['ADMIN', 'CLIENT'],
+        enum: ['ADMIN', 'CLIENT', 'ENTERPRISE'],
         default: "CLIENT"
     },
     phone: {
