@@ -2,6 +2,7 @@ import { validateUser } from '../../helpers/data-methods.js';
 import { isToken } from '../../helpers/tk-methods.js';
 import randomatic from 'randomatic';
 import Account from './account.model.js';
+import User from '../user/user.model.js';
 import { validateExistentNumberAccount } from '../../helpers/data-methods.js';
 
 const handleResponse = (res, promise) => {
@@ -24,14 +25,19 @@ const validateUserRequest = async (req, res) => {
 }
 
 export const createAccount = async (req, res) => {
-    const { salary, credit } = req.body;
+    const { salary, credit, idUser } = req.body;
     await validateUserRequest(req, res);
     let numberAccount = 0;
     do {
         numberAccount = randomatic("0", 10);
     } while (await validateExistentNumberAccount(numberAccount));
     handleResponse(res, Account.create({ numberAccount, salary, credit }));
+    let accounts;
+    accounts = await User.findById(idUser);
+    accounts.accounts.push(numberAccount);
+    await User.findByIdAndUpdate(idUser, { $set: { accounts: accounts.accounts } });
 }
+
 
 export const getAccounts = async (req, res) => {
     await validateUserRequest(req, res);
