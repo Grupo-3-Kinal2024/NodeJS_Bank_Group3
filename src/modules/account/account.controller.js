@@ -31,6 +31,7 @@ export const createAccount = async (req, res) => {
     do {
         numberAccount = randomatic("0", 10);
     } while (await validateExistentNumberAccount(numberAccount));
+    console.log("Debug id: ", idUser);
     handleResponse(res, Account.create({ numberAccount, salary, credit }));
     let accounts;
     accounts = await User.findById(idUser);
