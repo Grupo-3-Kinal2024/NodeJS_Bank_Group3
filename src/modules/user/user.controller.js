@@ -1,11 +1,13 @@
 import bcryptjs from "bcryptjs";
 import User from "./user.model.js";
+import { validateUserRequest } from "../../helpers/controller-checks.js"
+import { handleResponse } from "../../helpers/handle-resp.js"
+import { logger } from "../../helpers/logger.js";
 
 /**************  PUT *****************/
 export const userPut = async (req, res) => {
   const { id } = req.params;
-  const { name, lastName, userName, email, pass, phone, address, jobName } =
-    req.body;
+  const { name, lastName, userName, email, pass, phone, address, jobName } = req.body;
 
   try {
     // Find the user by ID
