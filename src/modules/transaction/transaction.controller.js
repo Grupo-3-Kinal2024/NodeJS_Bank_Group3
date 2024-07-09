@@ -68,10 +68,13 @@ export const getAllMyTransactions = async (req, res) => {
 
 //Tomar transacciones de un account-user
 export const getTransaction = async (req, res) => {
-    logger.info('Getting tansaction by Id');
-    const { id } = req.body;
+    logger.info('Getting tansaction by numberAccount');
+    const { numberAccount } = req.body;
     await validateAdminRequest(req, res);
-    handleResponse(res, Transaction.findById(id));
+    const source = await Transaction.find({ sourceAccount: numberAccount })
+    const destination = await Transaction.find({ destinationAccount: numberAccount })
+    const allTransactions = source.concat(destination);
+    handleResponseWithMessage(res, allTransactions);
 }
 
 //Depositar a una cuenta - Admin
@@ -97,7 +100,7 @@ export const createDeposit = async (req, res) => {
 export const revertTransaction = async (req, res) => {
     logger.info('Reversing transaction');
     const { id } = req.body;
-    
+
 }
 
 
