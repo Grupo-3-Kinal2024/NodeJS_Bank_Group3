@@ -1,7 +1,8 @@
 import Transaction from "./transaction.model.js";
+import User from "../user/user.model.js";
 import Account from "../account/account.model.js";
 import { validateUserRequest } from "../../helpers/controller-checks.js"
-import { handleResponse } from "../../helpers/handle-resp.js"
+import { handleResponse, handleResponseWithMessage } from "../../helpers/handle-resp.js"
 import mongoose from "mongoose";
 import { logger } from "../../helpers/logger.js";
 import { validateAmount, validateExistentNumberAccount } from "../../helpers/data-methods.js";
@@ -61,12 +62,16 @@ export const editTransaction = async (req, res) => {
     handleResponse(res, Transaction.findByIdAndUpdate({ _id: id, status: true }, { $set: newData }, { new: true }));
 }
 
-export const getTransactions = async (req, res) => {
+export const getAllMyTransactions = async (req, res) => {
     // A que cuenta ingreso... dado en el Frontend
-    logger.info('Getting transactions by source account');
-    const { sourceAccount } = req.body;
+    logger.info('Getting all my transactions by the id of the user');
+    const { numberAccount } = req.body;
     await validateUserRequest(req, res);
-    handleResponse(res, Transaction.find({ sourceAccount: sourceAccount }));
+    const source = await Transaction.find({ sourceAccount: numberAccount })
+    const destination = await Transaction.find({ destinationAccount: numberAccount })
+    const allTransactions = source.concat(destination);
+    handleResponseWithMessage(res, allTransactions);
+    //handleResponse(res, Transaction.find({ sourceAccount: sourceAccount}));
 }
 
 export const getTransaction = async (req, res) => {

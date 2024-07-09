@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { check } from 'express-validator';
 import { validateJWT } from '../../middlewares/validate-jwt.js';
 import { validateFields } from '../../middlewares/validate-fields.js';
-import { createTransaction, createTransfer, editTransaction, getTransactions, getTransaction, getTransactionsByType, getTransactionsByProcess, revertTransaction } from './transaction.controller.js';
+import { createTransaction, createTransfer, editTransaction, getAllMyTransactions, getTransaction, getTransactionsByType, getTransactionsByProcess, revertTransaction } from './transaction.controller.js';
 
 const router = Router();
 
@@ -17,6 +17,14 @@ router.post(
         validateFields
     ],
     createTransfer
+);
+
+router.get(
+    '/my-transactions',
+    [
+        validateJWT
+    ],
+    getAllMyTransactions
 );
 
 export default router;
