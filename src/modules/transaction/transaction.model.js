@@ -3,12 +3,11 @@ import { Schema, model } from 'mongoose';
 const TransactionSchema = new Schema({
     type: {
         type: String,
-        enum: ['TRANSFER', 'CREDIT', "BUY"],
+        enum: ['TRANSFER','DEPOSIT', 'CREDIT', "BUY"],
     },
     sourceAccount: {
         type: Number,
-        ref: "account",
-        require: true
+        ref: "account"
     },
     destinationAccount: {
         type: Number,

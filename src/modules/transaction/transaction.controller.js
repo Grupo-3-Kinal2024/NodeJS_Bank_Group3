@@ -1,7 +1,7 @@
 import Transaction from "./transaction.model.js";
 import User from "../user/user.model.js";
 import Account from "../account/account.model.js";
-import { validateUserRequest } from "../../helpers/controller-checks.js"
+import { validateUserRequest, validateAdminRequest } from "../../helpers/controller-checks.js"
 import { handleResponse, handleResponseWithMessage } from "../../helpers/handle-resp.js"
 import mongoose from "mongoose";
 import { logger } from "../../helpers/logger.js";
@@ -23,6 +23,7 @@ export const createTransaction = async (req, res) => {
     handleResponse(res, Transaction.create({ type, sourceAccount, destinationAccount, amount, enterprise, nit, description }));
 }
 
+//Transferir - users
 export const createTransfer = async (req, res) => {
     logger.info('Starting transaction transfer');
     const { sourceAccount, destinationAccount, amount, description } = req.body;
@@ -52,16 +53,7 @@ export const createTransfer = async (req, res) => {
     session.endSession();
 }
 
-
-export const editTransaction = async (req, res) => {
-    logger.info('Start editing Transaction');
-    const { id } = req.params;
-    const { amount } = req.body;
-    await validateUserRequest(req, res);
-    const newData = { amount };
-    handleResponse(res, Transaction.findByIdAndUpdate({ _id: id, status: true }, { $set: newData }, { new: true }));
-}
-
+//Tomar todas las transacciones de un user
 export const getAllMyTransactions = async (req, res) => {
     // A que cuenta ingreso... dado en el Frontend
     logger.info('Getting all my transactions by the id of the user');
@@ -74,12 +66,44 @@ export const getAllMyTransactions = async (req, res) => {
     //handleResponse(res, Transaction.find({ sourceAccount: sourceAccount}));
 }
 
+//Tomar transacciones de un account-user
 export const getTransaction = async (req, res) => {
     logger.info('Getting tansaction by Id');
-    const { id } = req.params;
-    await validateUserRequest(req, res);
+    const { id } = req.body;
+    await validateAdminRequest(req, res);
     handleResponse(res, Transaction.findById(id));
 }
+
+//Depositar a una cuenta - Admin
+export const createDeposit = async (req, res) => {
+    logger.info('Starting deposit');
+    const { sourceAccount, amount } = req.body;
+    const type = 'DEPOSIT';
+    await validateAdminRequest(req, res);
+    const session = await mongoose.startSession();
+    session.startTransaction();
+    try {
+        handleResponse(res, Transaction.create({ type, sourceAccount, amount }));
+        await Account.findOneAndUpdate({ numberAccount: sourceAccount }, { $inc: { credit: amount } });
+    } catch (error) {
+        logger.error('Error:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+    await session.commitTransaction();
+    session.endSession();
+}
+
+//Revertir una transaccion - Admin
+export const revertTransaction = async (req, res) => {
+    logger.info('Reversing transaction');
+    const { id } = req.body;
+    
+}
+
+
+
+
+
 
 export const getTransactionsByType = async (req, res) => {
     logger.info('Getting transactions by type');
@@ -95,9 +119,14 @@ export const getTransactionsByProcess = async (req, res) => {
     handleResponse(res, Transaction.find({ process: process, status: true, sourceAccount: sourceAccount }));
 }
 
-export const revertTransaction = async (req, res) => {
-    logger.info('Reversing transaction');
+
+
+
+export const editTransaction = async (req, res) => {
+    logger.info('Start editing Transaction');
     const { id } = req.params;
+    const { amount } = req.body;
     await validateUserRequest(req, res);
-    handleResponse(res, Transaction.findByIdAndUpdate({ _id: id, status: true }, { $set: { status: false } }, { new: true }));
+    const newData = { amount };
+    handleResponse(res, Transaction.findByIdAndUpdate({ _id: id, status: true }, { $set: newData }, { new: true }));
 }

@@ -2,10 +2,11 @@ import { Router } from 'express';
 import { check } from 'express-validator';
 import { validateJWT } from '../../middlewares/validate-jwt.js';
 import { validateFields } from '../../middlewares/validate-fields.js';
-import { createTransaction, createTransfer, editTransaction, getAllMyTransactions, getTransaction, getTransactionsByType, getTransactionsByProcess, revertTransaction } from './transaction.controller.js';
+import { createTransaction, createTransfer, editTransaction, getAllMyTransactions, getTransaction, getTransactionsByType, getTransactionsByProcess, revertTransaction, createDeposit } from './transaction.controller.js';
 
 const router = Router();
 
+//transferir - users
 router.post(
     '/transfer',
     [
@@ -19,6 +20,7 @@ router.post(
     createTransfer
 );
 
+//ver transacciones - user
 router.get(
     '/my-transactions',
     [
@@ -26,5 +28,28 @@ router.get(
     ],
     getAllMyTransactions
 );
+
+//ver transacciones de un user - Admin
+router.get(
+    '/user-transactions',
+    [
+        validateJWT
+    ],
+    getTransaction
+);
+
+//Depositar a una cuenta - Admin
+router.post(
+    '/deposit',
+    [
+        validateJWT,
+        check('sourceAccount', 'Source account is required').not().isEmpty(),
+        check('amount', 'Amount is required').not().isEmpty(),
+        validateFields
+    ],
+    createDeposit
+);
+
+
 
 export default router;
