@@ -96,9 +96,9 @@ export const createDeposit = async (req, res) => {
     session.endSession();
 }
 
-//Revertir una transaccion - Admin
+//Revertir una depósito - Admin
 export const revertTransaction = async (req, res) => {
-    logger.info('Reversing transaction');
+    logger.info('Reversing Deposite');
     const { id } = req.body;
 
 }
