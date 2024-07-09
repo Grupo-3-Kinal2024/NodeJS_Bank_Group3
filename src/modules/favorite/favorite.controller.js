@@ -1,4 +1,4 @@
-import { isToken } from '../../helpers/tk-methods';
+import { isToken } from '../../helpers/tk-methods.js';
 import { validateUser } from '../../helpers/data-methods.js';
 import Favorite from './favorite.model.js';
 import Account from '../account/account.model.js'
