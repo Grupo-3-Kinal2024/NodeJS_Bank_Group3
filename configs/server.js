@@ -7,6 +7,7 @@ import morgan from "morgan";
 import authRoutes from "../src/auth/auth.routes.js";
 import accountRoutes from "../src/modules/account/account.routes.js";
 import userRoutes from "../src/modules/user/user.routes.js";
+import transactionRoutes from "../src/modules/transaction/transaction.routes.js";
 import { dbConnection } from "./mongo.js";
 // import routes from 'routes.js';
 
@@ -18,6 +19,7 @@ class Server {
     this.authPath = "/bank/v1/auth";
     this.accountPath = "/bank/v1/account";
     this.userPath = "/bank/v1/user";
+    this.transactionPath = "/bank/v1/transaction";
 
     this.middlewares();
     this.conectDB();
@@ -32,6 +34,7 @@ class Server {
     this.app.use(this.authPath, authRoutes);
     this.app.use(this.accountPath, accountRoutes);
     this.app.use(this.userPath, userRoutes);
+    this.app.use(this.transactionPath, transactionRoutes);  
   }
 
   middlewares() {
