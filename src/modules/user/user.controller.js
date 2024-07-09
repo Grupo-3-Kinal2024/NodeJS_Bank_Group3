@@ -28,3 +28,8 @@ export const userDelete = async (req, res) => {
   const user = await isToken(req, res);
   handleResponse(res, User.findByIdAndUpdate(user._id, { status: false }, { new: true }));
 };
+
+export const getEnterpriseUsers = async (req, res) => {
+  logger.info('Getting enterprise users');
+  handleResponse(res, User.find({ status: true, role: 'ENTERPRISE' }));
+};

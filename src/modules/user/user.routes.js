@@ -8,7 +8,7 @@ import {
   validateUser,
 } from "../../helpers/data-methods.js";
 import { validateFields } from "../../middlewares/validate-fields.js";
-import { getAllUsers, userDelete, userPut } from "./user.controller.js";
+import { getAllUsers, userDelete, userPut, getEnterpriseUsers } from "./user.controller.js";
 
 const router = Router();
 
@@ -25,6 +25,8 @@ router.put(
 );
 
 router.get("/", getAllUsers);
+
+router.get("/enterprise", getEnterpriseUsers);
 
 router.delete(
   "/:id",
