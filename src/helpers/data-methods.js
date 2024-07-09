@@ -48,6 +48,13 @@ export const validatePassword = async (password) => {
     }
 };
 
+export const validateAmount = async (account, mount) => {
+
+    const acount = await Account.findOne({ numberAccount: account });
+    return acount.credit < mount ? false : true;
+
+}
+
 export const validateExistentDPI = async (DPI) => {
     const dpi = await User.findOne({ DPI });
     if (dpi) { throw new Error(`DPI already is registered`) }

@@ -1,8 +1,10 @@
-import Transaction from "./transaction.model";
-import Account from "../account/account.model";
+import Transaction from "./transaction.model.js";
+import Account from "../account/account.model.js";
 import { validateUserRequest } from "../../helpers/controller-checks.js"
 import { handleResponse } from "../../helpers/handle-resp.js"
+import mongoose from "mongoose";
 import { logger } from "../../helpers/logger.js";
+import { validateAmount, validateExistentNumberAccount } from "../../helpers/data-methods.js";
 
 export const createTransaction = async (req, res) => {
     logger.info('Starting transaction creation');
@@ -10,14 +12,45 @@ export const createTransaction = async (req, res) => {
     await validateUserRequest(req, res);
     const session = await mongoose.startSession();
     session.startTransaction();
-    try{
-        const sourceAccountTransaction = await Account.findOne({Number})
-    }catch(error){
+    let sourceAccountTransaction = null;
+    try {
+        sourceAccountTransaction = await Account.findOne({ Number })
+    } catch (error) {
         logger.error('Error:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
     handleResponse(res, Transaction.create({ type, sourceAccount, destinationAccount, amount, enterprise, nit, description }));
 }
+
+export const createTransfer = async (req, res) => {
+    logger.info('Starting transaction transfer');
+    const { sourceAccount, destinationAccount, amount, description } = req.body;
+    const type = 'TRANSFER';
+
+    await validateUserRequest(req, res);
+    const validationToTransfer = await validateAmount(sourceAccount, amount);
+    const validationNumber = await validateExistentNumberAccount(destinationAccount);
+    const session = await mongoose.startSession();
+    if (validationToTransfer && validationNumber) {
+        session.startTransaction();
+        let sourceAccountTransaction = null;
+        try {
+            sourceAccountTransaction = await Account.findOne({ Number })
+        } catch (error) {
+            logger.error('Error:', error);
+            res.status(500).json({ error: 'Internal server error' });
+        }
+        handleResponse(res, Transaction.create({ type, sourceAccount, destinationAccount, amount, description }));
+        await Account.findOneAndUpdate({ numberAccount: sourceAccount }, { $inc: { credit: -amount } });
+        await Account.findOneAndUpdate({ numberAccount: destinationAccount }, { $inc: { credit: amount } });
+        await session.commitTransaction();
+    }
+    else {
+        res.status(500).json({ error: 'Error in the transaction, please check the data' });
+    }
+    session.endSession();
+}
+
 
 export const editTransaction = async (req, res) => {
     logger.info('Start editing Transaction');
@@ -59,7 +92,7 @@ export const getTransactionsByProcess = async (req, res) => {
 
 export const revertTransaction = async (req, res) => {
     logger.info('Reversing transaction');
-    const { id } = req.params;    
+    const { id } = req.params;
     await validateUserRequest(req, res);
     handleResponse(res, Transaction.findByIdAndUpdate({ _id: id, status: true }, { $set: { status: false } }, { new: true }));
 }
