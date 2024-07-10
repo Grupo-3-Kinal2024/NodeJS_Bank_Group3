@@ -43,7 +43,7 @@ router.post(
     '/deposit',
     [
         validateJWT,
-        check('sourceAccount', 'Source account is required').not().isEmpty(),
+        check('destinationAccount', 'destination account is required').not().isEmpty(),
         check('amount', 'Amount is required').not().isEmpty(),
         validateFields
     ],

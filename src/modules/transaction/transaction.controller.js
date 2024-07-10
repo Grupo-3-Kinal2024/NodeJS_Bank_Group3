@@ -80,19 +80,26 @@ export const getTransaction = async (req, res) => {
 //Depositar a una cuenta - Admin
 export const createDeposit = async (req, res) => {
     logger.info('Starting deposit');
-    const { sourceAccount, amount } = req.body;
+    const { destinationAccount, amount } = req.body;
     const type = 'DEPOSIT';
     await validateAdminRequest(req, res);
+    const validationNumber = await validateExistentNumberAccount(destinationAccount);
     const session = await mongoose.startSession();
-    session.startTransaction();
-    try {
-        handleResponse(res, Transaction.create({ type, sourceAccount, amount }));
-        await Account.findOneAndUpdate({ numberAccount: sourceAccount }, { $inc: { credit: amount } });
-    } catch (error) {
-        logger.error('Error:', error);
-        res.status(500).json({ error: 'Internal server error' });
+    if (validationNumber && amount > 0) {
+        const session = await mongoose.startSession();
+        session.startTransaction();
+        try {
+            handleResponse(res, Transaction.create({ type, destinationAccount, amount }));
+            await Account.findOneAndUpdate({ numberAccount: destinationAccount }, { $inc: { credit: amount } });
+        } catch (error) {
+            logger.error('Error:', error);
+            res.status(500).json({ error: 'Internal server error' });
+        }
+        await session.commitTransaction();
+
+    } else {
+        res.status(500).json({ error: 'Error in the deposit, please check the data' });
     }
-    await session.commitTransaction();
     session.endSession();
 }
 
