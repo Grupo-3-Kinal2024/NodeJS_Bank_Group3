@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { check } from 'express-validator';
 import { validateJWT } from '../../middlewares/validate-jwt.js';
 import { validateFields } from '../../middlewares/validate-fields.js';
-import { createTransaction, createTransfer, editTransaction, getAllMyTransactions, getTransaction, getTransactionsByType, getTransactionsByProcess, revertTransaction, createDeposit } from './transaction.controller.js';
+import { createTransaction, createTransfer, editTransaction, getAllMyTransactions, getTransaction, getTransactionsByType, getTransactionsByProcess, revertTransaction, createDeposit, getDepositsByAdmin } from './transaction.controller.js';
 
 const router = Router();
 
@@ -48,6 +48,15 @@ router.post(
         validateFields
     ],
     createDeposit
+);
+
+//Ver depositos que ha hecho un admin
+router.get(
+    '/admin-deposit/:adminId',
+    [
+
+    ],
+    getDepositsByAdmin
 );
 
 

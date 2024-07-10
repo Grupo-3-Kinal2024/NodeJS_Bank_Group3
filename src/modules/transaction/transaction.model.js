@@ -3,7 +3,7 @@ import { Schema, model } from 'mongoose';
 const TransactionSchema = new Schema({
     type: {
         type: String,
-        enum: ['TRANSFER','DEPOSIT', 'CREDIT', "BUY"],
+        enum: ['TRANSFER', 'DEPOSIT', 'CREDIT', "BUY"],
     },
     sourceAccount: {
         type: Number,
@@ -36,6 +36,10 @@ const TransactionSchema = new Schema({
         type: String,
         enum: ["REVISION", "APPROVED", "DISAPPROVED"],
         default: "REVISION"
+    },
+    adminId: {
+        type: String,
+        ref: "user"
     },
     status: {
         type: Boolean,

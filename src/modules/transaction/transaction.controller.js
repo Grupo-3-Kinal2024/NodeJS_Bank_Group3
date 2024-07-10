@@ -80,7 +80,7 @@ export const getTransaction = async (req, res) => {
 //Depositar a una cuenta - Admin
 export const createDeposit = async (req, res) => {
     logger.info('Starting deposit');
-    const { destinationAccount, amount } = req.body;
+    const { adminId, destinationAccount, amount } = req.body;
     const type = 'DEPOSIT';
     await validateAdminRequest(req, res);
     const validationNumber = await validateExistentNumberAccount(destinationAccount);
@@ -89,7 +89,7 @@ export const createDeposit = async (req, res) => {
         const session = await mongoose.startSession();
         session.startTransaction();
         try {
-            handleResponse(res, Transaction.create({ type, destinationAccount, amount }));
+            handleResponse(res, Transaction.create({ type, adminId, destinationAccount, amount }));
             await Account.findOneAndUpdate({ numberAccount: destinationAccount }, { $inc: { credit: amount } });
         } catch (error) {
             logger.error('Error:', error);
@@ -110,6 +110,13 @@ export const revertTransaction = async (req, res) => {
 
 }
 
+
+//Ver depositos que ha hecho un admin
+export const getDepositsByAdmin = async (req, res) => {
+    logger.info('Getting deposits by admin');
+    const { adminId } = req.params;
+    handleResponse(res, Transaction.find({ adminId: adminId, type: "DEPOSIT", status: true }));
+}
 
 
 
