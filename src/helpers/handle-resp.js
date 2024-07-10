@@ -15,6 +15,6 @@ export const handleResponse = (res, promise) => {
 
 export const handleResponseWithMessage = (res, message) => {
     logger.info('Start request in handling response with message');
-    res.status(200).json({ message });
+    res.status(200).json(message );
     logger.info('Request successful');
 }

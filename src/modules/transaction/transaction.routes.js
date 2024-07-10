@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { check } from 'express-validator';
 import { validateJWT } from '../../middlewares/validate-jwt.js';
 import { validateFields } from '../../middlewares/validate-fields.js';
-import { createTransaction, createTransfer, editTransaction, getAllMyTransactions, getTransaction, getTransactionsByType, getTransactionsByProcess, revertTransaction, createDeposit } from './transaction.controller.js';
+import { createTransaction, createTransfer, editTransaction, getAllMyTransactions, getTransaction, getTransactionsByType, getTransactionsByProcess, revertTransaction, createDeposit, getDepositsByAdmin } from './transaction.controller.js';
 
 const router = Router();
 
@@ -22,7 +22,7 @@ router.post(
 
 //ver transacciones - user
 router.get(
-    '/my-transactions',
+    '/my-transactions/:numberAccount',
     [
         validateJWT
     ],
@@ -43,11 +43,20 @@ router.post(
     '/deposit',
     [
         validateJWT,
-        check('sourceAccount', 'Source account is required').not().isEmpty(),
+        check('destinationAccount', 'destination account is required').not().isEmpty(),
         check('amount', 'Amount is required').not().isEmpty(),
         validateFields
     ],
     createDeposit
+);
+
+//Ver depositos que ha hecho un admin
+router.get(
+    '/admin-deposit/:adminId',
+    [
+
+    ],
+    getDepositsByAdmin
 );
 
 
