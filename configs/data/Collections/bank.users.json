@@ -1,0 +1,52 @@
+[{
+  "_id": {
+    "$oid": "6685f2e6ff28f889345d5ff0"
+  },
+  "DPI": "98412412412",
+  "name": "Elmer",
+  "lastName": "Santos",
+  "userName": "esantos",
+  "email": "esantos@gmail.com",
+  "pass": "$2a$10$IHLwFKrPRPhKhFfPEve55Ov9sBPL5tl9raK2M3XmcLeEJg8loeNw2",
+  "accounts": [
+    "2725388378"
+  ],
+  "role": "CLIENT",
+  "phone": "552153121",
+  "address": "456 Oak Ave, Springfield, USA",
+  "jobName": "Teacher",
+  "status": true,
+  "createdAt": {
+    "$date": "2024-07-04T00:55:02.230Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-09T22:52:58.389Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "668de37c3342000526dc08ee"
+  },
+  "DPI": "8752123480101",
+  "name": "Rodrigo",
+  "lastName": "García",
+  "userName": "rgarcia",
+  "email": "rgarcia@gmail.com",
+  "pass": "$2a$10$vjuUo8u/GUR.f0rxgT/BVu8YTVc4mORaDMnLlG5m1k29kMfhxQltC",
+  "accounts": [
+    "5143659936"
+  ],
+  "role": "CLIENT",
+  "phone": "34893445",
+  "address": "4ta avenida A",
+  "jobName": "Programador",
+  "status": true,
+  "createdAt": {
+    "$date": "2024-07-10T01:27:24.367Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-10T01:31:07.463Z"
+  },
+  "__v": 0
+}]
