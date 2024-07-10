@@ -1,5 +1,6 @@
 import bcryptjs from "bcryptjs";
 import User from "./user.model.js";
+import Account from '../account/account.model.js';
 import { isToken } from '../../helpers/tk-methods.js';
 import { handleResponse } from "../../helpers/handle-resp.js"
 import { logger } from "../../helpers/logger.js";
@@ -9,7 +10,7 @@ export const userPut = async (req, res) => {
   const { id } = req.params;
   const { name, lastName, userName, email, pass, phone, address, jobName } = req.body;
   const user = await isToken(req, res);
-  const newData = {name, lastName, userName, email, phone, address, jobName};
+  const newData = { name, lastName, userName, email, phone, address, jobName };
   if (pass) {
     const salt = bcryptjs.genSaltSync();
     newData.pass = bcryptjs.hashSync(pass, salt);
@@ -33,3 +34,28 @@ export const getEnterpriseUsers = async (req, res) => {
   logger.info('Getting enterprise users');
   handleResponse(res, User.find({ status: true, role: 'ENTERPRISE' }));
 };
+
+
+export const getAllUsersWithAccounts = async (req, res) => {
+  logger.info("Getting all users with accounts");
+  try {
+    const users = await User.find({ status: true}).lean();
+
+    const userWithAccountsPromises = users.map(async (user) => {
+      const accounts = await Account.find({ numberAccount: { $in: user.accounts }, status: true }).lean();
+      return {
+        ...user,
+        accounts: accounts
+      };
+    });
+
+    const usersWithAccountsPromise = Promise.all(userWithAccountsPromises);
+
+    handleResponse(res, usersWithAccountsPromise);
+  } catch (error) {
+    console.log("cagada", error)
+    logger.error(`Error getting users with accounts: ${error.message}`);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
