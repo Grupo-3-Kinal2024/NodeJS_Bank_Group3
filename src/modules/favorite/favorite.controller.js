@@ -30,9 +30,10 @@ export const getAllFavorites = async(req, res) =>{
 
 
 export const addFavorite = async (req, res) =>{
+    console.log("Iniciando addFavorite");
     const { numberAccount, DPIFavorite, DPIPersonal, alias } = req.body
 
-    if(!numberAccount || !DPIFavorite || DPIPersonal || !alias ){
+    if(!numberAccount || !DPIFavorite || !DPIPersonal || !alias ){
         return res.status(400).json({ error: `All fields are required` });
     }
     try{
