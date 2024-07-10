@@ -1,0 +1,122 @@
+[{
+  "_id": {
+    "$oid": "668dbf4a654d3ee5707f312c"
+  },
+  "numberAccount": {
+    "$numberLong": "2725388378"
+  },
+  "salary": 3500,
+  "credit": 98928,
+  "status": true,
+  "createdAt": {
+    "$date": "2024-07-09T22:52:58.343Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-10T02:47:24.153Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "668dbfbd61751d9890060134"
+  },
+  "numberAccount": {
+    "$numberLong": "2154800154"
+  },
+  "salary": 3500,
+  "credit": 1877,
+  "status": true,
+  "createdAt": {
+    "$date": "2024-07-09T22:52:58.343Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-10T02:20:39.722Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "668dd9d461751d9890060143"
+  },
+  "numberAccount": 2015441020,
+  "salary": 5000,
+  "credit": 1048,
+  "status": true,
+  "createdAt": {
+    "$date": "2024-07-09T22:52:58.343Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-10T02:47:24.164Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "668dd9e361751d9890060144"
+  },
+  "numberAccount": 2015411201,
+  "salary": 5000,
+  "credit": 399,
+  "status": true,
+  "createdAt": {
+    "$date": "2024-07-09T22:52:58.343Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-10T01:36:20.498Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "668dd9f561751d9890060145"
+  },
+  "numberAccount": {
+    "$numberLong": "9874102115"
+  },
+  "salary": 5000,
+  "credit": 753,
+  "status": true,
+  "createdAt": {
+    "$date": "2024-07-09T22:52:58.343Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-10T01:36:23.134Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "668dda1461751d9890060146"
+  },
+  "numberAccount": {
+    "$numberLong": "9154551244"
+  },
+  "salary": 5000,
+  "credit": 1268,
+  "status": true,
+  "createdAt": {
+    "$date": "2024-07-09T22:52:58.343Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-10T02:47:02.683Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "668de45b3342000526dc08f5"
+  },
+  "numberAccount": {
+    "$numberLong": "5143659936"
+  },
+  "salary": 6000,
+  "credit": 124,
+  "status": true,
+  "createdAt": {
+    "$date": "2024-07-10T01:31:07.426Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-10T02:47:07.334Z"
+  },
+  "__v": 0
+}]

@@ -39,10 +39,34 @@ export const getEnterpriseUsers = async (req, res) => {
 export const getAllUsersWithAccounts = async (req, res) => {
   logger.info("Getting all users with accounts");
   try {
-    const users = await User.find({ status: true}).lean();
+    const users = await User.find({ status: true });
 
     const userWithAccountsPromises = users.map(async (user) => {
-      const accounts = await Account.find({ numberAccount: { $in: user.accounts }, status: true }).lean();
+      const accounts = await Account.find({ numberAccount: { $in: user.accounts }, status: true });
+      return {
+        ...user,
+        accounts: accounts
+      };
+    });
+
+    const usersWithAccountsPromise = Promise.all(userWithAccountsPromises);
+
+    handleResponse(res, usersWithAccountsPromise);
+  } catch (error) {
+    console.log("cagada", error)
+    logger.error(`Error getting users with accounts: ${error.message}`);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+export const getAllUsersWithAccountsById = async (req, res) => {
+  logger.info("Getting all users with accounts");
+  try {
+    const user = await isToken(req, res);
+    const users = await User.find({ _id: user._id, status: true });
+
+    const userWithAccountsPromises = users.map(async (user) => {
+      const accounts = await Account.find({ numberAccount: { $in: user.accounts }, status: true });
       return {
         ...user,
         accounts: accounts

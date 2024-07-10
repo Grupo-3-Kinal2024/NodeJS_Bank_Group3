@@ -1,0 +1,126 @@
+[{
+  "_id": {
+    "$oid": "668dcdf0b2626fe2c1b7e8cd"
+  },
+  "type": "TRANSFER",
+  "sourceAccount": {
+    "$numberLong": "2725388378"
+  },
+  "destinationAccount": {
+    "$numberLong": "2154800154"
+  },
+  "date": {
+    "$date": "2024-07-09T23:48:31.122Z"
+  },
+  "amount": 150,
+  "description": "aaa",
+  "process": "REVISION",
+  "status": true,
+  "createdAt": {
+    "$date": "2024-07-09T23:55:28.838Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-09T23:55:28.838Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "668deff73ac50c838d26fda2"
+  },
+  "type": "TRANSFER",
+  "sourceAccount": {
+    "$numberLong": "5143659936"
+  },
+  "destinationAccount": {
+    "$numberLong": "2154800154"
+  },
+  "date": {
+    "$date": "2024-07-10T02:18:54.857Z"
+  },
+  "amount": 245,
+  "description": "Payment for EEGSA",
+  "process": "REVISION",
+  "status": true,
+  "createdAt": {
+    "$date": "2024-07-10T02:20:39.707Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-10T02:20:39.707Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "668df626de06071694d22c64"
+  },
+  "type": "TRANSFER",
+  "sourceAccount": {
+    "$numberLong": "5143659936"
+  },
+  "destinationAccount": {
+    "$numberLong": "9154551244"
+  },
+  "date": {
+    "$date": "2024-07-10T02:30:37.535Z"
+  },
+  "amount": 281,
+  "description": "Payment for SAT",
+  "process": "REVISION",
+  "status": true,
+  "createdAt": {
+    "$date": "2024-07-10T02:47:02.651Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-10T02:47:02.651Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "668df62bde06071694d22c6e"
+  },
+  "type": "TRANSFER",
+  "sourceAccount": {
+    "$numberLong": "5143659936"
+  },
+  "destinationAccount": 2015441020,
+  "date": {
+    "$date": "2024-07-10T02:30:37.535Z"
+  },
+  "amount": 195,
+  "description": "Payment for EMPAGUA",
+  "process": "REVISION",
+  "status": true,
+  "createdAt": {
+    "$date": "2024-07-10T02:47:07.334Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-10T02:47:07.334Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "668df63cde06071694d22c79"
+  },
+  "type": "TRANSFER",
+  "sourceAccount": {
+    "$numberLong": "2725388378"
+  },
+  "destinationAccount": 2015441020,
+  "date": {
+    "$date": "2024-07-10T02:30:37.535Z"
+  },
+  "amount": 195,
+  "description": "Payment for EMPAGUA",
+  "process": "REVISION",
+  "status": true,
+  "createdAt": {
+    "$date": "2024-07-10T02:47:24.153Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-10T02:47:24.153Z"
+  },
+  "__v": 0
+}]
