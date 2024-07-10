@@ -50,12 +50,11 @@ export const login = async (req, res) => {
 
 /**************  Register *****************/
 export const register = async (req, res) => {
-  const { DPI, name, lastName, userName, email, pass, phone, address, jobName } = req.body;
+  const { DPI, name, lastName, userName, email, pass, phone, address, jobName, role } = req.body;
 
   try {
     const hashedPass = bcryptjs.hashSync(pass, 10);
 
-    let role = "CLIENT";
     //The line under verify if there is a word admin then of the arroba
     //if there is, the rol will be ADMIN else will be CLIENT
     if (email.includes("@") && email.split("@")[1].toLowerCase().includes("admin")) {
