@@ -23,11 +23,17 @@ const validateUserRequest = async (req, res) => {
     }
 }
 
+
 export const getAllFavorites = async(req, res) =>{
     await validateUserRequest(req, res);
     handleResponse(res, Favorite.find({status: true}))
 }
 
+export const deleteFavorite = async(req, res)=>{
+    const { id } = req.params;
+    await validateUserRequest(req, res);
+    handleResponse(res, Favorite.findByIdAndUpdate({_id: id, status: false})) 
+}
 
 export const addFavorite = async (req, res) =>{
     console.log("Iniciando addFavorite");

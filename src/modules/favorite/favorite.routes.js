@@ -2,11 +2,13 @@ import { Router } from 'express';
 import { check } from 'express-validator';
 import { validateJWT } from '../../middlewares/validate-jwt.js';
 import { validateFields } from '../../middlewares/validate-fields.js';
-import { getAllFavorites, addFavorite } from './favorite.controller.js';
+import { getAllFavorites, addFavorite, deleteFavorite } from './favorite.controller.js';
 
 const router = Router();
 
-router.get("/",  validateJWT, getAllFavorites   )
+router.get("/",  validateJWT, getAllFavorites)
+
+router.delete("/:id", validateJWT, deleteFavorite);
 
 router.post(
     "/fav",[
