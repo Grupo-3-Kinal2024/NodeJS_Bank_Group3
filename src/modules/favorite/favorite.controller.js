@@ -3,6 +3,7 @@ import { validateUser } from '../../helpers/data-methods.js';
 import Favorite from './favorite.model.js';
 import Account from '../account/account.model.js'
 import User from '../user/user.model.js'
+import { logger } from "../../helpers/logger.js";
 
 const handleResponse = (res, promise) => {
     promise
@@ -29,11 +30,15 @@ export const getAllFavorites = async(req, res) =>{
     handleResponse(res, Favorite.find({status: true}))
 }
 
+
+
+
 export const deleteFavorite = async(req, res)=>{
+    logger.info('Deleting Favorite');
     const { id } = req.params;
-    await validateUserRequest(req, res);
-    handleResponse(res, Favorite.findByIdAndUpdate({_id: id, status: false})) 
-}
+    const fav = await isToken(req, res);
+    handleResponse(res, Favorite.findByIdAndUpdate(fav._id, {status: false}, {new: true}));
+};
 
 export const addFavorite = async (req, res) =>{
     console.log("Iniciando addFavorite");

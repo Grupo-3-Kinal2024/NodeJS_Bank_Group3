@@ -7,7 +7,7 @@
 	},
 	"item": [
 		{
-			"name": "add",
+			"name": "Collection",
 			"item": [
 				{
 					"name": "Post",
@@ -18,7 +18,15 @@
 					"response": []
 				},
 				{
-					"name": "New Request",
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
 					"request": {
 						"method": "GET",
 						"header": []
