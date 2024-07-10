@@ -57,7 +57,7 @@ export const createTransfer = async (req, res) => {
 export const getAllMyTransactions = async (req, res) => {
     // A que cuenta ingreso... dado en el Frontend
     logger.info('Getting all my transactions by the id of the user');
-    const { numberAccount } = req.body;
+    const { numberAccount } = req.params;
     await validateUserRequest(req, res);
     const source = await Transaction.find({ sourceAccount: numberAccount })
     const destination = await Transaction.find({ destinationAccount: numberAccount })

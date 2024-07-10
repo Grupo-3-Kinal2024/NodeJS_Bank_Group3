@@ -22,7 +22,7 @@ router.post(
 
 //ver transacciones - user
 router.get(
-    '/my-transactions',
+    '/my-transactions/:numberAccount',
     [
         validateJWT
     ],

@@ -39,10 +39,10 @@ export const getEnterpriseUsers = async (req, res) => {
 export const getAllUsersWithAccounts = async (req, res) => {
   logger.info("Getting all users with accounts");
   try {
-    const users = await User.find({ status: true });
+    const users = await User.find({ status: true }).lean();
 
     const userWithAccountsPromises = users.map(async (user) => {
-      const accounts = await Account.find({ numberAccount: { $in: user.accounts }, status: true });
+      const accounts = await Account.find({ numberAccount: { $in: user.accounts }, status: true }).lean();
       return {
         ...user,
         accounts: accounts
@@ -63,10 +63,10 @@ export const getAllUsersWithAccountsById = async (req, res) => {
   logger.info("Getting all users with accounts");
   try {
     const user = await isToken(req, res);
-    const users = await User.find({ _id: user._id, status: true });
+    const users = await User.find({ _id: user._id, status: true }).lean();
 
     const userWithAccountsPromises = users.map(async (user) => {
-      const accounts = await Account.find({ numberAccount: { $in: user.accounts }, status: true });
+      const accounts = await Account.find({ numberAccount: { $in: user.accounts }, status: true }).lean();
       return {
         ...user,
         accounts: accounts
