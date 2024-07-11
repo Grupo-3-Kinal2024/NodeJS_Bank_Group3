@@ -7,6 +7,7 @@ import morgan from "morgan";
 import authRoutes from "../src/auth/auth.routes.js";
 import accountRoutes from "../src/modules/account/account.routes.js";
 import userRoutes from "../src/modules/user/user.routes.js";
+import favoriteRoutes from "../src/modules/favorite/favorite.routes.js"
 import transactionRoutes from "../src/modules/transaction/transaction.routes.js";
 import productRoutes from "../src/modules/product/product.routes.js";
 import { dbConnection } from "./mongo.js";
@@ -22,6 +23,7 @@ class Server {
     this.userPath = "/bank/v1/user";
     this.transactionPath = "/bank/v1/transaction";
     this.productPath = "/bank/v1/product";
+    this.favoritePath = "/bank/v1/favorite";
 
     this.middlewares();
     this.conectDB();
@@ -38,6 +40,8 @@ class Server {
     this.app.use(this.userPath, userRoutes);
     this.app.use(this.transactionPath, transactionRoutes);
     this.app.use(this.productPath, productRoutes);
+    this.app.use(this.transactionPath, transactionRoutes);  
+    this.app.use(this.favoritePath, favoriteRoutes);  
   }
 
   middlewares() {
