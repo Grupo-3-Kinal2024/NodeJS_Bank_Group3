@@ -111,10 +111,37 @@ export const createDeposit = async (req, res) => {
     session.endSession();
 }
 
-//Revertir una depósito - Admin
+//Revertir un deposito - Admin
 export const revertTransaction = async (req, res) => {
     logger.info('Reversing Deposite');
-    const { id } = req.body;
+    const { id } = req.params;
+    await validateAdminRequest(req, res);
+    const session = await mongoose.startSession();
+    session.startTransaction();
+    try {
+        const deposit = await Transaction.findById(id);
+        let numbreAccount = deposit.destinationAccount;
+        const currentTimestamp = Date.now();
+        const depositTimestamp = new Date(deposit.date).getTime();
+        const timeDifference = currentTimestamp - depositTimestamp;
+
+        if (timeDifference > 60000) {
+            console.log("Han pasado más de 60 segundos");
+            return res.status(500).json({ error: 'The deposit can no longer be reversed' });
+        } else {
+            console.log("Han pasado menos de 60 segundos");
+            await Account.findOneAndUpdate({ numberAccount: numbreAccount }, { $inc: { credit: -deposit.amount } });
+            await Transaction.findByIdAndUpdate(id, { $set: { status: false } });
+            return res.status(200).json({ error: 'Transaction reversed' });
+        }
+
+    } catch (error) {
+        logger.error('Error:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+
+    await session.commitTransaction();
+    session.endSession();
 
 }
 
