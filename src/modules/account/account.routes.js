@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { check } from 'express-validator';
 import { validateJWT } from '../../middlewares/validate-jwt.js';
 import { validateFields } from '../../middlewares/validate-fields.js';
-import { createAccount, getAccounts, getAccount, updateAccount, deleteAccount } from './account.controller.js';
+import { createAccount, getAccounts, getAccount, updateAccount, deleteAccount, getAccountAscendantUsage, getAccountDescendantUsage } from './account.controller.js';
 
 const router = Router();
 
@@ -17,8 +17,6 @@ router.post(
 
 router.get("/", validateJWT, getAccounts);
 
-router.get("/:id", validateJWT, getAccount);
-
 router.put("/:id", [
     validateJWT,
     check('salary', 'The salary is required').not().isEmpty(),
@@ -27,5 +25,11 @@ router.put("/:id", [
 ], updateAccount);
 
 router.delete("/:id", validateJWT, deleteAccount);
+
+router.get("/ascendant", getAccountAscendantUsage);
+
+router.get("/descendant", getAccountDescendantUsage);
+
+router.get("/:id", validateJWT, getAccount);
 
 export default router;
