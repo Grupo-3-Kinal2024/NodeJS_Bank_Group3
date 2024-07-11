@@ -20,6 +20,7 @@ export const createAccount = async (req, res) => {
     accounts = await User.findById(idUser);
     accounts.accounts.push(numberAccount);
     await User.findByIdAndUpdate(idUser, { $set: { accounts: accounts.accounts } });
+    await Transaction.create({ type: 'OPENING', destinationAccount: numberAccount, amount: credit, description: 'Creation of account' });
 }
 
 export const getAccounts = async (req, res) => {
@@ -48,7 +49,6 @@ export const getAccountDetails = async (req, res) => {
             { destinationAccount: account.numberAccount }
         ]
     });
-    console.log("c pudio: ", transactions);
     handleResponseWithMessage(res, { account, user, transactions });
 }
 
