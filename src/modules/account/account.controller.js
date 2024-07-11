@@ -41,8 +41,13 @@ export const getAccountDetails = async (req, res) => {
     const { id } = req.params;
     await validateUserRequest(req, res);
     const account = await Account.findById(id);
+    console.log("🚀 ~ getAccountDetails ~ account:", account)
     let number = account.numberAccount.toString();
+    console.log("🚀 ~ getAccountDetails ~ number:", number)
+    
     const user = await User.findOne({ accounts: { $elemMatch: { $eq: number } } });
+    console.log("🚀 ~ getAccountDetails ~ user:", user)
+    
     const transactions = await Transaction.find({
         $or: [
             { sourceAccount: account.numberAccount },
