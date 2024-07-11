@@ -59,6 +59,15 @@ router.get(
     getDepositsByAdmin
 );
 
+//Reverse deposito - Admins
+router.put(
+    '/revert-deposit/:id',
+    [
+        validateJWT
+    ],
+    revertTransaction
+);
+
 
 
 export default router;

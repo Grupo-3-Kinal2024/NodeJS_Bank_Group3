@@ -3,7 +3,7 @@ import { Schema, model } from 'mongoose';
 const TransactionSchema = new Schema({
     type: {
         type: String,
-        enum: ['TRANSFER', 'DEPOSIT', 'CREDIT', "BUY"],
+        enum: ["OPENING",'TRANSFER', 'DEPOSIT', 'CREDIT', "BUY"],
     },
     sourceAccount: {
         type: Number,
