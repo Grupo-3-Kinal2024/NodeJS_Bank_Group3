@@ -5,6 +5,7 @@ import { validateExistentNumberAccount } from '../../helpers/data-methods.js';
 import { validateUserRequest } from "../../helpers/controller-checks.js"
 import { handleResponse } from "../../helpers/handle-resp.js"
 import { logger } from "../../helpers/logger.js";
+import { getUsage } from './account.utils.js';
 
 export const createAccount = async (req, res) => {
     logger.info('Creating account');
@@ -58,4 +59,50 @@ export const IncomeAccount = async (req, res) => {
 
 export const EgressAccount = async (req, res) => {
     logger.info('Egress account');
+}
+
+export const getAccountAscendantUsage = async (req, res) => {
+    try {
+        logger.info('Getting account ascendant usage');
+    const accounts = await Account.find({ status: true });
+    const promises = accounts.map((account) => getUsage(account));
+    const accountUsage = await Promise.all(promises);
+    accountUsage.sort((a, b) => a.totalUsage - b.totalUsage);
+    const responseData = accountUsage.map((item) => ({
+        account: item.account,
+        totalUsage: item.totalUsage,
+    }));
+
+    res.status(200).json({
+        message: 'Accounts retrieved successfully || sort by [asc]',
+        data: responseData,
+    });
+
+    logger.info('Accounts [asc] retrieved successfully');
+    } catch (error) {
+        logger.error('Get account ascendant usage controller error of type: ', error.name);
+    }
+}
+
+export const getAccountDescendantUsage = async (req, res) => {
+    try {
+        logger.info('Getting account descendant usage');
+    const accounts = await Account.find({ status: true });
+    const promises = accounts.map((account) => getUsage(account));
+    const accountUsage = await Promise.all(promises);
+    accountUsage.sort((a, b) => b.totalUsage - a.totalUsage);
+    const responseData = accountUsage.map((item) => ({
+        account: item.account,
+        totalUsage: item.totalUsage,
+    }));
+
+    res.status(200).json({
+        message: 'Accounts retrieved successfully || sort by [des] ',
+        data: responseData,
+    });
+
+    logger.info('Accounts [des] retrieved successfully');
+    } catch (error) {
+        logger.error('Get account descendant usage controller error of type: ', error);
+    }
 }
