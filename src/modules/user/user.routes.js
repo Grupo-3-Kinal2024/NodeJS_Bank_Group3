@@ -15,10 +15,6 @@ const router = Router();
 router.put(
   "/",
   [
-    check("userName").custom(validateExistentUserName),
-    check("email").custom(validateEmail),
-    check("email").custom(validateExistentEmail),
-    check("phone").custom(validateExistentPhone),
     validateFields,
   ],
   userPut
