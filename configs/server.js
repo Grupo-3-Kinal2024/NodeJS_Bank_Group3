@@ -7,11 +7,12 @@ import morgan from "morgan";
 import authRoutes from "../src/auth/auth.routes.js";
 import accountRoutes from "../src/modules/account/account.routes.js";
 import userRoutes from "../src/modules/user/user.routes.js";
-import favoriteRoutes from "../src/modules/favorite/favorite.routes.js"
+import favoriteRoutes from "../src/modules/favorite/favorite.routes.js";
 import transactionRoutes from "../src/modules/transaction/transaction.routes.js";
 import productRoutes from "../src/modules/product/product.routes.js";
 import { dbConnection } from "./mongo.js";
-// import routes from 'routes.js';
+import User from "../src/modules/user/user.model.js";
+import bcrypt from 'bcryptjs';
 
 class Server {
   constructor() {
@@ -32,6 +33,7 @@ class Server {
 
   async conectDB() {
     await dbConnection();
+    await this.createUserDefault(); // Llamada a la creación de usuario por defecto
   }
 
   routes() {
@@ -40,8 +42,8 @@ class Server {
     this.app.use(this.userPath, userRoutes);
     this.app.use(this.transactionPath, transactionRoutes);
     this.app.use(this.productPath, productRoutes);
-    this.app.use(this.transactionPath, transactionRoutes);  
-    this.app.use(this.favoritePath, favoriteRoutes);  
+    this.app.use(this.transactionPath, transactionRoutes);
+    this.app.use(this.favoritePath, favoriteRoutes);
   }
 
   middlewares() {
@@ -56,6 +58,35 @@ class Server {
     this.app.listen(this.port, () => {
       console.log("Server running on port ", this.port);
     });
+  }
+
+  async createUserDefault() {
+    try {
+      const defaultUser = await User.findOne({ userName: 'admin' });
+
+      if (!defaultUser) {
+        const hashedPassword = await bcrypt.hash('admin', 10); // Hash de la contraseña predeterminada
+        const newUser = new User({
+          DPI: '0000000001',
+          name: 'Admin',
+          lastName: 'User',
+          userName: 'admin',
+          email: 'admin@gmail.com',
+          pass: hashedPassword,
+          role: 'ADMIN',
+          phone: '0000000000',
+          address: 'Admin Address',
+          jobName: 'Administrator'
+        });
+
+        await newUser.save();
+        console.log("Default admin user created.");
+      } else {
+        console.log("Default admin user already exists.");
+      }
+    } catch (error) {
+      console.error("Error creating default admin user:", error);
+    }
   }
 
   notes() {
