@@ -38,6 +38,36 @@ export const createTransfer = async (req, res) => {
         let sourceAccountTransaction = null;
         try {
             sourceAccountTransaction = await Account.findOne({ Number })
+            const today = new Date();
+            const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
+
+            const transactionsToday = await Transaction.find({
+                sourceAccount: sourceAccount,
+                createdAt: {
+                    $gte: startOfDay,
+                    $lt: endOfDay
+                }
+            });
+
+
+
+            console.log("Transacciones de hoy:", transactionsToday);
+
+            // Sumar los amounts de las transacciones de hoy
+            const totalAmountToday = transactionsToday.reduce((total, transaction) => {
+                return total + transaction.amount;
+            }, 0);
+            console.log("🚀 ~ totalAmountToday ~ totalAmountToday:", isNaN(totalAmountToday), isNaN(amount))
+
+            console.log("Total amount of transactions today:", parseInt(totalAmountToday) + parseInt(amount));
+
+            const total = parseInt(totalAmountToday) + parseInt(amount);
+            if (total  > 10000) {
+                await session.abortTransaction();
+                session.endSession();
+                return res.status(400).send('El total de las transacciones de hoy supera el límite de 10,000');
+            }
         } catch (error) {
             logger.error('Error:', error);
             res.status(500).json({ error: 'Internal server error' });
