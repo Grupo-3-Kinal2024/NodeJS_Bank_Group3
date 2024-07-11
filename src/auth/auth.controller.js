@@ -6,7 +6,7 @@ import User from "../modules/user/user.model.js";
 /**************  Login *****************/
 export const login = async (req, res) => {
   const { email, pass } = req.body;
-  
+
   try {
     const user = await User.findOne({ email: email });
 
@@ -32,8 +32,10 @@ export const login = async (req, res) => {
           id: user._id,
           name: user.name,
           email: user.email,
+          lastName: user.lastName,
           img: user.img,
           role: user.role,
+          userName: user.userName,
           accounts: user.accounts,
           status: user.status,
           token: token,
@@ -42,7 +44,7 @@ export const login = async (req, res) => {
     }
   } catch (e) {
     console.log(e);
-    res.status(500).send( "Please contact the administrator/support.");
+    res.status(500).send("Please contact the administrator/support.");
   }
 };
 
@@ -71,10 +73,10 @@ export const register = async (req, res) => {
       phone,
       address,
       jobName,
-      role, 
-      accounts: [] 
+      role,
+      accounts: []
     });
-  
+
     await newUser.save();
 
     res.status(201).json({
@@ -90,8 +92,8 @@ export const register = async (req, res) => {
         jobName: newUser.jobName,
         role: newUser.role,
         status: newUser.status,
-        accounts: newUser.accounts, 
-            },
+        accounts: newUser.accounts,
+      },
     });
   } catch (e) {
     console.log(e);

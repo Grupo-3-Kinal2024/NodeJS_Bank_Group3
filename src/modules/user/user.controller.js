@@ -7,7 +7,6 @@ import { logger } from "../../helpers/logger.js";
 
 export const userPut = async (req, res) => {
   logger.info('Updating user');
-  const { id } = req.params;
   const { name, lastName, userName, email, pass, phone, address, jobName } = req.body;
   const user = await isToken(req, res);
   const newData = { name, lastName, userName, email, phone, address, jobName };
@@ -63,6 +62,7 @@ export const getAllUsersWithAccountsById = async (req, res) => {
   logger.info("Getting all users with accounts");
   try {
     const user = await isToken(req, res);
+    console.log(user.id)
     const users = await User.find({ _id: user._id, status: true }).lean();
 
     const userWithAccountsPromises = users.map(async (user) => {

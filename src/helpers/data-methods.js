@@ -62,7 +62,7 @@ export const validateExistentDPI = async (DPI) => {
 
 export const validateExistentUserName = async (userName) => {
     const uName = await User.findOne({ userName });
-    if (uName) { throw new Error(`The userName already is registered ${uName}`) }
+    if (uName) { throw new Error(`The userName already is registered ${uName.userName}`) }
 }
 
 export const validateExistentPhone = async (phone) => {

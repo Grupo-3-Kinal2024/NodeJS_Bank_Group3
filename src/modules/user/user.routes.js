@@ -8,12 +8,12 @@ import {
   validateUser,
 } from "../../helpers/data-methods.js";
 import { validateFields } from "../../middlewares/validate-fields.js";
-import { getAllUsers, userDelete, userPut, getEnterpriseUsers, getAllUsersWithAccounts} from "./user.controller.js";
+import { getAllUsers, userDelete, userPut, getEnterpriseUsers, getAllUsersWithAccounts, getAllUsersWithAccountsById} from "./user.controller.js";
 
 const router = Router();
 
 router.put(
-  "/:id",
+  "/",
   [
     check("userName").custom(validateExistentUserName),
     check("email").custom(validateEmail),
@@ -25,6 +25,8 @@ router.put(
 );
 
 router.get("/", getAllUsersWithAccounts);
+
+router.get("/my-accounts", getAllUsersWithAccountsById);
 
 router.get("/enterprise", getEnterpriseUsers);
 
