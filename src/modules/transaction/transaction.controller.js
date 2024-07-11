@@ -77,6 +77,14 @@ export const getTransaction = async (req, res) => {
     handleResponseWithMessage(res, allTransactions);
 }
 
+export const getTransactionToDetails = async (numberAccount) => {
+    logger.info('Getting tansaction by numberAccount');
+    const source = await Transaction.find({ sourceAccount: numberAccount })
+    const destination = await Transaction.find({ destinationAccount: numberAccount })
+    const allTransactions = source.concat(destination);
+    handleResponseWithMessage(res, allTransactions);
+}
+
 //Depositar a una cuenta - Admin
 export const createDeposit = async (req, res) => {
     logger.info('Starting deposit');

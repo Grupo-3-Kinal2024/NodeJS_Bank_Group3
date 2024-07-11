@@ -1,9 +1,10 @@
 import randomatic from 'randomatic';
 import Account from './account.model.js';
 import User from '../user/user.model.js';
+import Transaction from '../transaction/transaction.model.js';
 import { validateExistentNumberAccount } from '../../helpers/data-methods.js';
 import { validateUserRequest } from "../../helpers/controller-checks.js"
-import { handleResponse } from "../../helpers/handle-resp.js"
+import { handleResponse, handleResponseWithMessage } from "../../helpers/handle-resp.js"
 import { logger } from "../../helpers/logger.js";
 
 export const createAccount = async (req, res) => {
@@ -32,6 +33,23 @@ export const getAccount = async (req, res) => {
     const { id } = req.params;
     await validateUserRequest(req, res);
     handleResponse(res, Account.findById(id));
+}
+
+export const getAccountDetails = async (req, res) => {
+    logger.info("Getting account");
+    const { id } = req.params;
+    await validateUserRequest(req, res);
+    const account = await Account.findById(id);
+    let number = account.numberAccount.toString();
+    const user = await User.findOne({ accounts: { $elemMatch: { $eq: number } } });
+    const transactions = await Transaction.find({
+        $or: [
+            { sourceAccount: account.numberAccount },
+            { destinationAccount: account.numberAccount }
+        ]
+    });
+    console.log("c pudio: ", transactions);
+    handleResponseWithMessage(res, { account, user, transactions });
 }
 
 export const updateAccount = async (req, res) => {
