@@ -33,11 +33,11 @@ export const getAllFavorites = async(req, res) =>{
 
 
 
-export const deleteFavorite = async(req, res)=>{
-    logger.info('Deleting Favorite');
-    const { id } = req.params;
-    const fav = await isToken(req, res);
-    handleResponse(res, Favorite.findByIdAndUpdate(fav._id, {status: false}, {new: true}));
+export const deleteFavorite = async (req, res) => {
+  logger.info('Deleting Favorite');
+  const { id } = req.params;
+  await validateUserRequest(req, res);
+  handleResponse(res, Favorite.findByIdAndUpdate({_id: id, status: true}, {$set:{status:false}} , {new: true })) 
 };
 
 export const addFavorite = async (req, res) =>{
