@@ -91,24 +91,21 @@ export const createDeposit = async (req, res) => {
     const { adminId, destinationAccount, amount } = req.body;
     const type = 'DEPOSIT';
     await validateAdminRequest(req, res);
+    const date = new Date();
     const validationNumber = await validateExistentNumberAccount(destinationAccount);
-    const session = await mongoose.startSession();
     if (validationNumber && amount > 0) {
-        const session = await mongoose.startSession();
-        session.startTransaction();
+
         try {
-            handleResponse(res, Transaction.create({ type, adminId, destinationAccount, amount }));
+            handleResponse(res, Transaction.create({ type, adminId, date, destinationAccount, amount }));
             await Account.findOneAndUpdate({ numberAccount: destinationAccount }, { $inc: { credit: amount } });
         } catch (error) {
             logger.error('Error:', error);
             res.status(500).json({ error: 'Internal server error' });
         }
-        await session.commitTransaction();
 
     } else {
         res.status(500).json({ error: 'Error in the deposit, please check the data' });
     }
-    session.endSession();
 }
 
 //Revertir un deposito - Admin
@@ -120,12 +117,19 @@ export const revertTransaction = async (req, res) => {
     session.startTransaction();
     try {
         const deposit = await Transaction.findById(id);
+        let currentTimestamp = Date.now();
+        let depositTimestamp = new Date(deposit.date).getTime();
+        console.log("Dato supuesto estático: ", deposit.date);
+        let timeDifference = (currentTimestamp / 1000) - (depositTimestamp / 1000);
         let numbreAccount = deposit.destinationAccount;
-        const currentTimestamp = Date.now();
-        const depositTimestamp = new Date(deposit.date).getTime();
-        const timeDifference = currentTimestamp - depositTimestamp;
 
-        if (timeDifference > 60000) {
+
+        console.log("Tiempo actual 1: ", currentTimestamp / 1000);
+        console.log("Tiempo del deposito 1: ", depositTimestamp / 1000);
+        console.log("Diferencia de tiempo 1: ", timeDifference);
+        //Esperar 1 segundo para probar
+
+        if (timeDifference > 60.01) {
             console.log("Han pasado más de 60 segundos");
             return res.status(500).json({ error: 'The deposit can no longer be reversed' });
         } else {
