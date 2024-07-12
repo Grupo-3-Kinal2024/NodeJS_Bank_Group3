@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { check } from 'express-validator';
 import { validateJWT } from '../../middlewares/validate-jwt.js';
 import { validateFields } from '../../middlewares/validate-fields.js';
-import { createAccount, getAccounts, getAccount, updateAccount, deleteAccount, getAccountDetails } from './account.controller.js';
+import { createAccount, getAccounts, getAccount, updateAccount, deleteAccount, getAccountDetails,  } from './account.controller.js';
 
 const router = Router();
 

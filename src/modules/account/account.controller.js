@@ -13,7 +13,7 @@ export const createAccount = async (req, res) => {
     await validateUserRequest(req, res);
     let numberAccount = 0;
     do {
-        numberAccount = randomatic("0", 10);
+        numberAccount = randomatic("1", 10);
     } while (await validateExistentNumberAccount(numberAccount));
     handleResponse(res, Account.create({ numberAccount, salary, credit }));
     let accounts;
@@ -41,12 +41,9 @@ export const getAccountDetails = async (req, res) => {
     const { id } = req.params;
     await validateUserRequest(req, res);
     const account = await Account.findById(id);
-    console.log("🚀 ~ getAccountDetails ~ account:", account)
     let number = account.numberAccount.toString();
-    console.log("🚀 ~ getAccountDetails ~ number:", number)
     
     const user = await User.findOne({ accounts: { $elemMatch: { $eq: number } } });
-    console.log("🚀 ~ getAccountDetails ~ user:", user)
     
     const transactions = await Transaction.find({
         $or: [

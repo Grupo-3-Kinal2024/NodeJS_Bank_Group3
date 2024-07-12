@@ -67,7 +67,7 @@ class Server {
       if (!defaultUser) {
         const hashedPassword = await bcrypt.hash('admin', 10); // Hash de la contraseña predeterminada
         const newUser = new User({
-          DPI: '0000000001',
+          DPI: '000000000000',
           name: 'Admin',
           lastName: 'User',
           userName: 'admin',

@@ -24,12 +24,41 @@ export const getAllUsers = async (req, res) => {
   handleResponse(res, User.find({ status: true }));
 };
 
+export const userEdit = async (req, res) => {
+  logger.info('Editing user');
+  const { id } = req.params;
+  const { name, lastName, userName, email, pass, phone, address, jobName } = req.body;
+
+  const newData = { name, lastName, userName, email, phone, address, jobName };
+
+  if (pass) {
+    const salt = bcryptjs.genSaltSync();
+    newData.pass = bcryptjs.hashSync(pass, salt);
+  }
+
+  handleResponse(res, User.findOneAndUpdate({ _id: id, status: true }, { $set: newData }, { new: true }));
+};
+
 export const userDelete = async (req, res) => {
   logger.info('Deleting user');
   const { id } = req.params;
   const user = await isToken(req, res);
-  handleResponse(res, User.findByIdAndUpdate(user._id, { status: false }, { new: true }));
+
+  // Verificar si el usuario a eliminar es un administrador
+  const userToDelete = await User.findById(id);
+  if (userToDelete.role === 'ADMIN') {
+    return res.status(403).send('No se puede eliminar a otro administrador');
+  }
+
+  // Desactivar el usuario
+  await User.findByIdAndUpdate(id, { status: false }, { new: true });
+
+  // Desactivar todas las cuentas asociadas al usuario
+  await Account.updateMany({ numberAccount: { $in: userToDelete.accounts } }, { status: false });
+
+  res.status(200).json({ message: 'Usuario y sus cuentas desactivados correctamente' });
 };
+
 
 export const getEnterpriseUsers = async (req, res) => {
   logger.info('Getting enterprise users');
